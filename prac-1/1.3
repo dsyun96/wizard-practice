@@ -1,0 +1,9 @@
+(define (sq x) (* x x))
+
+(define (sqsum x y) (+ (sq x) (sq y)))
+
+(define (f x y z)
+  (cond ((not (or (> x y) (> x z))) (sqsum y z))
+        ((not (or (> y x) (> y z))) (sqsum x z))
+        (else (sqsum x y))))
+
