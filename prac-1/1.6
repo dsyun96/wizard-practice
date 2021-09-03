@@ -1,0 +1,52 @@
+(define (sqrt x)
+  (sqrt-iter 1.0 x))
+
+(define (new-if predicate then-clause else-clause)
+  (cond (predicate then-clause)
+        (else else-clause)))
+
+(define (sqrt-iter guess x)
+  (new-if (good-enough? guess x)
+          guess
+          (sqrt-iter (improve guess x) x)))
+
+(define (improve guess x)
+  (average guess (/ x guess)))
+
+(define (average x y)
+  (/ (+ x y) 2))
+
+(define (good-enough? guess x)
+  (< (abs (- (square guess) x)) 0.001))
+
+(define (square x)
+  (* x x))
+
+...What happends when Alyssa attempts to use this to compute square roots?
+
+
+
+(sqrt 3)
+-> (sqrt-iter 1.0 3)
+-> (new-if (good-enough? 1.0 3)
+           1.0
+           (sqrt-iter (improve 1.0 3) 3))
+-> (new-if (< (abs (- (sqaure 1.0) 3)) 0.001)
+           1.0
+           (sqrt-iter (improve 1.0 3) 3))
+-> (new-if #f
+           1.0
+           (sqrt-iter (average 1.0 (/ 3 1.0)) 3))
+-> (new-if #f
+           1.0
+           (sqrt-iter 2.0 3))
+-> (new-if #f
+           1.0
+           (new-if (good-enough? 2.0 3)
+                   2.0
+                   (sqrt-iter (improve 2.0 3) 3)))
+-> ...
+
+why? 인자 먼저 계산법에 의해 인자의 최종값을 구하려고 계속해서 파고 들기 때문.
+보통 물리 메모리의 한계로 인해 메모리 초과가 발생하고 프로세스가 죽게 된다.
+
