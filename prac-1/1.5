@@ -1,0 +1,24 @@
+(define (p) (p))
+
+(define (test x y)
+  (if (= x 0)
+      0
+      y))
+
+
+
+(1) 인자 먼저 계산법(applicative order evaluation)
+
+(test 0 (p))
+-> (test 0 (p))
+-> (test 0 (p))
+-> ... (무한루프)
+
+
+
+(2) 정의대로 계산법(normal-order evaluation)
+
+(test 0 (p))
+-> (if (= 0 0) 0 (p))
+-> 0
+
