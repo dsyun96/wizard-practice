@@ -1,0 +1,43 @@
+(define (count-change amount) (cc amount 5))
+
+(define (cc amount kinds-of-coins)
+  (cond ((= amount 0) 1)
+        ((or (< amount 0) (= kinds-of-coins 0)) 0)
+        (else (+ (cc amount
+                     (- kinds-of-coins 1))
+                 (cc (- amount
+                        (first-denomination kinds-of-coins))
+                     kinds-of-coins)))))
+
+(define (first-denomination kinds-of-coins)
+  (cond ((= kinds-of-coins 1) 1)
+        ((= kinds-of-coins 2) 5)
+        ((= kinds-of-coins 3) 10)
+        ((= kinds-of-coins 4) 25)
+        ((= kinds-of-coins 5) 50)))
+
+
+
+11센트를 동전으로 바꿀 때, count-change 프로시저가 만들어 내는 프로세스를 나무꼴로 그려 보아라.
+
+11 [50, 25, 10, 5, 1]
+├ -49 [50, 25, 10, 5, 1]
+└ 11 [25, 10, 5, 1]
+   ├ -14 [25, 10, 5, 1]
+   └ 11 [10, 5, 1]
+      ├ 1 [10, 5, 1]
+      │├ -9 [10, 5, 1]
+      │└ 1 [5, 1]
+      │  ├ -4 [5, 1]
+      │  └ 1 [1]
+      └ 11 [5, 1]
+         ├ 6 [5, 1]
+         │├ 1 [5, 1]
+         ││├ -4 [5, 1]
+         ││└ 1 [1]
+         │└ 6 [1]
+         └ 11 [1]
+
+프로세스가 거치는 단계 수: Θ(n^5)
+
+기억 공간: Θ(n)
