@@ -1,0 +1,20 @@
+f(n) = | n                           if n < 3,
+       | f(n-1) + 2f(n-2) + 3f(n-3)  if n >= 3
+
+위와 같이 정의된 함수 f의 프로시저를 되도는 프로세스가 나오도록 짜라.
+
+(define (f n)
+  (if (< n 3)
+      n
+      (+ (f (- n 1)) (* 2 (f (- n 2))) (* 3 (f (- n 3))))))
+
+
+
+아울러, 반복 프로세스를 만들어 내는 프로시저도 만들어 보라.
+
+(define (f n)
+  (define (iter n count f-1 f-2 f-3)
+    (cond ((< n 3) n)
+          ((= n (+ count 1)) f-1)
+          (else (iter n (+ count 1) (+ f-1 (* 2 f-2) (* 3 f-3)) f-1 f-2))))
+  (iter n 1 2 1 0))
