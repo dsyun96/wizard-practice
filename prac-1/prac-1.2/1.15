@@ -1,0 +1,30 @@
+(define (cube x) (* x x x))
+
+(define (p x) (- (* 3 x) (* 4 (cube x))))
+
+(define (sine angle)
+  (if (not (> (abs angle) 0.1))
+      angle
+      (p (sine (/ angle 3.0)))))
+
+
+
+(1) (sine 12.15)의 값을 구할 때 p 프로시저를 몇 번이나 불러 쓰는가?
+
+(sine 12.15)
+-> (p (sine 4.05))
+-> (p (p (sine 1.34xxx)))
+-> (p (p (p (sine 0.44xxx))))
+-> (p (p (p (p (sine 0.14xxx)))))
+-> (p (p (p (p (p (sine 0.04xxx))))))
+
+5번
+
+(2) (sine a) 값을 계산한다 치고, sine 프로시저가 만들어 내는 프로세스에서 기억 공간과 계산 단계의 자람 차수를 a의 함수로 나타내면?
+
+a의 값이 0.1 이하로 떨어질 때까지 프로세스가 되돌기 때문에,
+기억 공간과 계산 단계의 자람 차수 모두 Θ(log a)이다.
+
+a/3^n <= 0.1
+-> 10a <= 3^n
+-> log_3(10a) <= n
