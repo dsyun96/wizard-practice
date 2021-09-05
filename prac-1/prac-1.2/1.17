@@ -1,0 +1,12 @@
+fast-expt 처럼 계산 단계가 로그 비례로 자라나는 곱셈 프로시저를 작성하라.
+
+(define (double n)
+  (+ n n))
+
+(define (halve n)
+  (/ n 2))
+
+(define (fast-mul a b)
+  (cond ((= b 0) 0)
+        ((even? b) (fast-mul (double a) (halve b)))
+        (else (+ a (fast-mul a (- b 1))))))
