@@ -1,0 +1,10 @@
+fast-expt처럼 계산 시간이 로그 비례로 늘어나게끔 계속 제곱하는 방법을 쓰되, 반복 프로세스를 펼쳐내는 거듭제곱 프로시저를 짜보자.
+
+(define (fast-iterative-expt b n)
+  (define (iter a b n)
+    (if (= n 0)
+        a
+        (if (even? n)
+            (iter a (* b b) (/ n 2))
+            (iter (* a b) b (- n 1)))))
+  (iter 1 b n))
