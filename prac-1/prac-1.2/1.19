@@ -1,0 +1,34 @@
+T_{pq}는 (a, b)에 대해서 a <- bq + aq + ap, b <- bp + aq로 변환한다.
+T_{pq}를 두 번 적용한 것이 T_{p'q'}를 한 번 적용한 것과 동일할 때, p와 q를 이용하여 p', q'를 나타내라.
+
+(a, b)
+-> (bq + aq + ap, bp + aq)
+-> ((bp + aq)q + (bq + aq + ap)q + (bq + aq + ap)p, (bp + aq)p + (bq + aq + ap)q)
+
+정리하면,
+
+bpq + aq^2 + bq^2 + aq^2 + apq + bpq + apq + ap^2
+= b(2pq + q^2) + a(2pq + q^2) + a(q^2 + p^2)
+
+bp^2 + apq + bq^2 + aq^2 + apq
+= b(q^2 + p^2) + a(2pq + q^2)
+
+따라서, p' = p^2 + q^2, q' = q^2 + 2pq
+
+
+
+(define (fib n)
+  (fib-iter 1 0 0 1 n))
+
+(define (fib-iter a b p q count)
+  (cond ((= count 0) b)
+        ((even? count) (fib-iter a
+                                 b
+                                 (+ (* p p) (* q q))
+                                 (+ (* q q) (* 2 p q))
+                                 (/ count 2)))
+        (else (fib-iter (+ (* b q) (* a q) (* a p))
+                        (+ (* b p) (* a q))
+                        p
+                        q
+                        (- count 1)))))
