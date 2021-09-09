@@ -1,0 +1,74 @@
+아래의 프로시저를 사용하여 특정 범위에 있는 연속한 홀수들에 대해 소수 판별을 하는 search-for-primes 프로시저를 작성하라.
+
+(define (timed-prime-test n)
+  (newline)
+  (display n)
+  (start-prime-test n (runtime)))
+
+(define (start-prime-test n start-time)
+  (if (prime? n)
+      (report-prime (- (runtime) start-time))))
+
+(define (report-prime elapsed-time)
+  (display " *** ")
+  (display elapsed-time))
+
+(define (prime? n)
+  (= n (smallest-divisor n)))
+
+(define (smallest-divisor n)
+  (find-divisor n 2))
+
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (+ test-divisor 1)))))
+
+(define (divides? a b)
+  (= (remainder b a) 0))
+
+(define (square n)
+  (* n n ))
+
+
+
+(define (search-for-primes start end)
+  (if (even? start)
+      (search-for-primes (+ start 1) end)
+      (cond ((> start end) (newline)
+                           (display "done"))
+            (else (timed-prime-test start)
+                  (search-for-primes (+ start 2) end)))))
+
+
+
+작성한 프로시저를 이용해서 10^3, 10^4, 10^5, 10^6 보다 크면서 가장 작은 3개의 소수를 찾아라.
+그 후 각 소수에 대해 소수 판별하는 데 걸리는 시간을 기록하라.
+
+1009 -> 3.159611
+1013 -> 3.591026
+1019 -> 3.336812
+
+10007 -> 10.35747
+10009 -> 10.83656
+10037 -> 10.8567
+
+100003 -> 32.42367
+100019 -> 33.29672
+100043 -> 34.11773
+
+1000003 -> 106.0203
+1000033 -> 112.2258
+1000037 -> 107.4948
+
+
+
+소수 판별하는 알고리즘의 단계 자람 차수가 theta(sqrt(n))이므로, 10000 근처의 소수를 판별하는 것이 1000 근처의 소수를 판별하는 것보다 sqrt(10)배 가량 더 오래 걸렸을 것이다. 실제로 그렇게 나왔는가?
+
+1009, 1013, 1019에 걸린 시간 평균    -> 3.3624829999999997
+10007, 10009, 10037에 걸린 시간 평균 -> 10.683576666666667
+비율     -> 3.177287934739497
+sqrt(10) -> 3.1622776601683795
+
+매우 비슷하게 나왔다.
+
