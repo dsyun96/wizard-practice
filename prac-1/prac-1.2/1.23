@@ -4,6 +4,15 @@
 이렇게 최적화했을 경우 2배보다 더 빨라지는가?
 연습문제 1.22에서 구한 소수 12개로 확인해보라.
 
+(define (find-divisor n test-divisor)
+  (cond ((> (square test-divisor) n) n)
+        ((divides? test-divisor n) test-divisor)
+        (else (find-divisor n (next test-divisor)))))
+        
+(define (next n)
+  (if (= n 2)
+      3
+      (+ n 2)))
 
 1009 -> 3.159611 -> 2.734224
 1013 -> 3.591026 -> 2.709179
