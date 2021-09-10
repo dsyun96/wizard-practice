@@ -1,0 +1,33 @@
+카마이클 수가 정말로 페르마 테스트를 소용없게 만드는지 프로시저를 작성하고 확인하라.
+
+
+
+#lang racket/base
+
+(define (fermat-test n)
+  (define (try-it a)
+    (= (expmod a n n) a))
+  (define (iter a)
+    (cond ((< a 1) #t)
+          ((try-it a) (iter (- a 1)))
+          (else #f)))
+  (iter (- n 1)))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp) (remainder (square (expmod base (/ exp 2) m))
+                               m))
+        (else (remainder (* base (expmod base (- exp 1) m))
+                         m))))
+
+(define (square n)
+  (* n n))
+
+(fermat-test 561)
+(fermat-test 1105)
+(fermat-test 1729)
+(fermat-test 2465)
+(fermat-test 2821)
+(fermat-test 6601)
+
+모두 소수가 아니지만, 모두 소수라는 결과가 나온다.
