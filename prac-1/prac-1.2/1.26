@@ -1,0 +1,19 @@
+Louis가 연습문제 1.24를 풀었더니 fast-prime?이 prime?보다 더 느리다고 한다.
+Eva가 Louis의 코드를 보니 다음과 같았다.
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp)
+         (remainder (* (expmod base (/ exp 2) m)
+                       (expmod base (/ exp 2) m))
+                    m))
+        (else (remainder (* base (expmod base (- exp 1) m))
+                         m))))
+
+그러자 Eva가 "프로시저를 이렇게 작성하면 theta(log n) 프로세스가 theta(n) 프로세스가 되잖아."라고 했다.
+무슨 말인지 설명하라.
+
+
+
+exp가 짝수일 때 T(exp) 문제를 T(exp/2) 문제로 바꿈으로써 log n 자람 차수를 얻을 수 있는 것이다.
+하지만 저렇게 square 프로시저를 쓰는 대신 풀어서 쓰면 2*T(exp/2)이 되는 셈이고, 이는 결국 theta(n)을 의미한다.
