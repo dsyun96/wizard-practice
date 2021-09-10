@@ -1,0 +1,72 @@
+밀러-라빈 검사에서는 어떤 수 n이 소수인지 알려면 a < n인 수를 제멋대로 골라, expmod 프로시저를 써서 a^(n-1) modulo n 값을 얻는다.
+expmod에서 제곱을 할 때마다 '1 modulo n의 뻔하지 않은 제곱근', 곧 1이나 n-1이 아니면서 제곱한 값이 1 modulo n인 수인지 알아보고 그런 1의 제곱근이 있다면 n이 소수가 아님을 밝힐 수 있다.
+뻔하지 않은 1의 제곱근을 찾아냈음을 알 수 있도록 expmod를 고친 다음에 fermat-test를 흉내내어 밀러-라빈 검사 프로시저를 짜 보라.
+
+
+
+(define (miller-rabin-test n)
+  (define (try-it a)
+    (= (expmod a (- n 1) n) 1))
+  (try-it (+ 1 (random (- n 1)))))
+
+(define (fast-prime? n times)
+  (cond ((= times 0) #t)
+        ((miller-rabin-test n) (fast-prime? n (- times 1)))
+        (else #f)))
+
+(define (expmod base exp m)
+  (cond ((= exp 0) 1)
+        ((even? exp) (square-check (expmod base (/ exp 2) m) m))
+        (else (remainder (* base (expmod base (- exp 1) m))
+                         m))))
+
+(define (square-check x m)
+  (if (and (not (or (= x 1)
+                    (= x (- m 1))))
+           (= (remainder (* x x) m) 1))
+      0
+      (remainder (* x x) m)))
+
+
+
+(if (fast-prime? 2 10)
+    (display "true\n")
+    (display "false\n"))
+
+(if (fast-prime? 541 10)
+    (display "true\n")
+    (display "false\n"))
+
+(if (fast-prime? 683 10)
+    (display "true\n")
+    (display "false\n"))
+
+(if (fast-prime? 97 10)
+    (display "true\n")
+    (display "false\n"))
+
+(if (fast-prime? 1009 10)
+    (display "true\n")
+    (display "false\n"))
+
+
+
+(if (fast-prime? 6 10)
+    (display "false\n")
+    (display "true\n"))
+
+(if (fast-prime? 203 10)
+    (display "false\n")
+    (display "true\n"))
+
+(if (fast-prime? 209 10)
+    (display "false\n")
+    (display "true\n"))
+
+(if (fast-prime? 561 10)
+    (display "false\n")
+    (display "true\n"))
+
+(if (fast-prime? 625 10)
+    (display "false\n")
+    (display "true\n"))
