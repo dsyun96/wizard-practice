@@ -1,0 +1,11 @@
+앞에서 짠 sum 프로시저는 선형 재귀 프로세스를 만들어 낸다.
+선형으로 반복하게끔 고쳐라.
+
+
+
+(define (sum term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (+ result (term a)))))
+  (iter a 0))
