@@ -1,0 +1,65 @@
+a. sum처럼 product 프로시저를 작성하고, pi/4 = 2*4*4*6*6*8*.../3*3*5*5*7*7*... 식을 바탕으로 pi에 가까운 값을 얻어보라.
+
+(define (product term a next b)
+  (if (> a b)
+      1
+      (* (term a) (product term (next a) next b))))
+
+(define (numerator x)
+  (* x (+ x 2)))
+
+(define (denominator x)
+  (* x x))
+
+(define (add-2 x)
+  (+ x 2))
+
+(define (f n)
+  (/ (product numerator 2.0 add-2 n)
+     (product denominator 3.0 add-2 n)))
+
+(* 4 (f 169))
+-> 3.150846180075978
+
+이렇게 작성하니 n의 한계가 169이며, 더 이상 가까워지지 않았다.
+
+
+(define (f x)
+  (* (/ (- x 1) x)
+     (/ (+ x 1) x)))
+
+(* 4 (product f 3.0 add-2 10))
+-> 3.3023935500125967
+
+(* 4 (product f 3.0 add-2 100))
+-> 3.1573396892175616
+
+(* 4 (product f 3.0 add-2 1000))
+-> 3.143163842419195
+
+(* 4 (product f 3.0 add-2 10000))
+-> 3.141749737149242
+
+(* 4 (product f 3.0 add-2 100000))
+-> 3.1416083615920707
+
+(* 4 (product f 3.0 add-2 1000000))
+-> 3.141594224380842
+
+(* 4 (product f 3.0 add-2 10000000))
+-> 3.141592810661395
+
+이렇게 작성하니 계속해서 가까워지는 것을 볼 수 있다.
+
+
+
+b. 되도는 프로세스로 작성하였으니, 반복하도록 고쳐 보라.
+
+(define (product term a next b)
+  (define (iter a result)
+    (if (> a b)
+        result
+        (iter (next a) (* result (term a)))))
+  (iter a 1))
+
+확실히 반복하는 프로세스가 빠르다.
