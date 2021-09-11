@@ -1,0 +1,57 @@
+심프슨의 규칙을 이용하여 f, a, b, n을 인자로 받아서 정적분하는 프로시저를 작성하라.
+그 후 integral 프로시저의 결과와 비교해보라.
+
+
+
+(define (integral f a b dx)
+  (define (add-dx x)
+    (+ x dx))
+  (* (sum f (+ a (/ dx 2.0)) add-dx b)
+     dx))
+
+(define (sum term a next b)
+  (if (> a b)
+      0
+      (+ (term a)
+         (sum term (next a) next b))))
+
+(define (cube x)
+  (* x x x))
+
+(define (simpson f a b n)
+  (define h (/ (- b a) n))
+  (define (add-2h x) (+ x h h))
+  (* (+ (f a)
+        (* 4 (sum f (+ a h) add-2h b))
+        (* 2 (sum f (add-2h a) add-2h b))
+        (f b))
+     (/ h 3.0)))
+
+(integral cube 0.0 1.0 0.1)
+(integral cube 0.0 1.0 0.01)
+(integral cube 0.0 1.0 0.001)
+
+(newline)
+
+(simpson cube 0.0 1.0 10)
+(simpson cube 0.0 1.0 100)
+(simpson cube 0.0 1.0 1000)
+
+
+
+Result =====================
+0.24874999999999994
+0.24998750000000042
+0.249999875000001
+
+0.31666666666666654
+0.25000000000000044
+0.25000000000000083
+
+
+n=100, n=1000일 땐 나름 정확하게 나오는데,
+
+n=300 -> 0.25222222222222085
+n=900 -> 0.25074074074073105
+
+등의 케이스를 보면... 값이 많이 튀는 것 같다.
