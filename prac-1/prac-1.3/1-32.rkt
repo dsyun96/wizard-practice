@@ -23,11 +23,11 @@
   (accumulate mul 1 term a inc b))
 
 (define (square x) (* x x))
-(define (identify x) x)
+(define (identity x) x)
 (define (inc x) (+ x 1))
 
 (sum square 1 inc 10)        ; output - 385
-(product identify 1 inc 10)  ; output - 3628800
+(product identity 1 inc 10)  ; output - 3628800
 
 
 
