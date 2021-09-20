@@ -2,17 +2,25 @@
 ;; 로 나타낼 때, 이에 알맞은 cons, car, cdr 프로시저를 정의해 보라.
 
 (define (cons a b)
-  (lambda (m) (m a b)))
+  (* (expt 2 a)
+     (expt 3 b)))
+
+(define (log-count n b)
+  (if (= (remainder n b) 0)
+      (+ (log-count (/ n b) b) 1)
+      0))
 
 (define (car z)
-  (z (lambda (p q) (expt 2 p))))
+  (log-count z 2))
 
 (define (cdr z)
-  (z (lambda (p q) (expt 3 q))))
+  (log-count z 3))
 
+(cons 5 3)
 (car (cons 5 3))
 (cdr (cons 5 3))
 
 ;; output:
-;; 32
-;; 27
+;; 864
+;; 5
+;; 3
